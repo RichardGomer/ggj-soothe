@@ -17,6 +17,9 @@ public class SpeechStrings
 	public const string ANX_CLEAN = "I want to wash my hands";
 	public const string ANX_CLEAN_DONE = "Yay, clean hands";
 
+	public const string ANX_SECURITY = "Am I safe?";
+	public const string ANX_SECURITY_DONE = "I think I'm safe";
+
 	// Haven't name anything else yet - add strings for the other proposed types
 	// with const names based on above I guess
 }

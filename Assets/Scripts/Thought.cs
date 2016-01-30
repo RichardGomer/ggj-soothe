@@ -4,11 +4,15 @@ using System;
 
 public interface Thought
 {
-    string getDescription();
+     string getDescription();
 
-	string getCompletionSpeech();
+	 string getCompletionSpeech();
 
-    string getSound();
+	 string getSound();
 
-    bool isComplete();
+	 bool isComplete();
+
+	 Thought getNextThought();
+
+	 bool hasNextThought();
 }

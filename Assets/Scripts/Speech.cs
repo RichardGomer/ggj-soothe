@@ -36,8 +36,7 @@ public class Speech : MonoBehaviour {
 
         this.textQueue.Add(entry);
     }
-
-    string textBuffer;
+	
     protected string getCurrentText()
     {
         foreach(SpeechEntry entry in this.textQueue)

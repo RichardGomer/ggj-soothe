@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
 
     protected ArrayList thoughts;
 	public UIFacade UIF;
+	public Clock clock;
 
 	// Use this for initialization
 	void Start () {
@@ -21,14 +22,8 @@ public class Player : MonoBehaviour {
 	void Update () {
         this.purgeThoughts();
 
-        // Update global UI stuff from here?
-
-
 		// Level completes
 		if (this.thoughts.Count < 1) {
-
-			this.UIF.reset();
-
 			this.reset (this.level+1);
 		}
     }
@@ -38,24 +33,37 @@ public class Player : MonoBehaviour {
 
 		this.level = level;
 
+		// Reset the clock
+		// TODO: This currently goes to midnight...
+		this.clock.reset ();
+
+		Debug.Log ("Setup level " + level);
+
 		switch (level) {
 			case 4:
+				this.say ("DONE!", 5000);
+			return;
 
 			case 3:
+				SecurityAnxiety s1, s2;
+				this.addThought(s1 = new SecurityAnxiety((Clickable) GameObject.Find("FrontDoor"), 1));
+				s1.chainThought(s2 = new SecurityAnxiety((Clickable) GameObject.Find("Window"), 1));
+			return;
+
 
 			case 2:
-				this.addThought(new CountAnxiety((Clickable) GameObject.Find("Switch"), 4));
+				this.addThought(new LightAnxiety((Clickable) GameObject.Find("Switch"), 4));
 				this.addThought(new ScrubAnxiety((Sink) GameObject.Find("Sink"), 2));
 			break;
+
 
 			case 1:
-				this.addThought(new ScrubAnxiety((Sink) GameObject.Find("Sink"), 2));
-				
+				this.addThought(new ScrubAnxiety((Sink) GameObject.Find("Sink"), 2));	
 			break;
 
-			case 0:
-				this.addThought(new CountAnxiety((Clickable) GameObject.Find("Switch"), 4));
 
+			case 0:
+				this.addThought(new LightAnxiety((Clickable) GameObject.Find("Switch"), 4));
 			break;
 		}
 
@@ -97,7 +105,13 @@ public class Player : MonoBehaviour {
 				if (tt.isComplete())
 	            {
 	                this.thoughts.Remove(tt);
-	                this.say("OK...", 1000);
+	                this.say(tt.getCompletionSpeech(), 1000);
+
+					// See if there are chained thoughts...
+					if(tt.hasNextThought())
+					{
+						this.addThought(tt.getNextThought());
+					}
 	            }
 	        }
 		}
