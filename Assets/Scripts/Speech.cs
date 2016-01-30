@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.UI;
 
 public class Speech : MonoBehaviour {
-
+	
+	public Text textEl;
 	// Use this for initialization
 	void Start () {
-        this.textQueue = new Dictionary<int, string>();
+		this.textQueue = new List<SpeechEntry>();
         this.queueText("<Initialised Speech>", 1000);
 	}
 
@@ -18,63 +20,77 @@ public class Speech : MonoBehaviour {
 	}
 
     
-
-    private Dictionary<int, string> textQueue;
-    private int lastdelay = 0;
+    private List<SpeechEntry> textQueue;
+    private int currentEnd = 0;
     public void queueText(string text, int delay)
     {
-        // Calculate the end time of the last entry
-        int last = 0;
-        if (textQueue.Count > 0)
-            last = textQueue.Keys.Max();
+		int start = this.currentEnd;
 
-        int from = last + this.lastdelay;
+		if (start < now) {
+			start = now;
+		}
 
-        // If that's before now, then use now
-        if(from < now)
-            from = this.now;
+		SpeechEntry entry = new SpeechEntry (text, delay);
+		entry.setStart (start);
+		this.currentEnd = entry.getEnd ();
 
-        // Store the delay on this text to add to the start time of the next element
-        this.lastdelay = delay;
-
-        this.textQueue.Add(from, text);
+        this.textQueue.Add(entry);
     }
 
     string textBuffer;
     protected string getCurrentText()
     {
-        string answer = "";
-        int last = -1;
-
-        foreach(int startTime in this.textQueue.Keys)
+        foreach(SpeechEntry entry in this.textQueue)
         {
-            if(startTime < this.now)
-            {
-                answer = this.textQueue[startTime];
-
-                // We've found newer text, so remove the old entry
-                if(last > 0)
-                {
-                    this.textQueue.Remove(last);
-                }
-            } 
-            // Stop when we reach text for the future
-            else if(startTime > now)
-            {
-                break;
-            }
+            if(entry.getEnd() < now)
+			{
+				this.textQueue.Remove(entry);
+			}
+			else
+			{
+				return entry.getText();
+			}
         }
 
-        return answer;
+		return "";
     }
 
     public void OnGUI()
     {
         this.now = System.Convert.ToInt32(Time.time * 1000);
-
-
-        // Print current text
-        Rect textArea = new Rect(0, 0, Screen.width, Screen.height);
-        GUI.Label(textArea, this.getCurrentText());
+		this.textEl.text = this.getCurrentText ();
     }
+}
+
+public class SpeechEntry
+{
+	private string text;
+	private int duration;
+	private int start;
+
+	public SpeechEntry(string text, int duration)
+	{
+		this.text = text;
+		this.duration = duration;
+	}
+
+	public string getText()
+	{
+		return this.text;
+	}
+
+	public void setStart(int start)
+	{
+		this.start = start;
+	}
+
+	public int getStart()
+	{
+		return this.start;
+	}
+
+	public int getEnd()
+	{
+		return this.start + this.duration;
+	}
 }
