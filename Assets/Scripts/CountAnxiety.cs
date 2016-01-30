@@ -19,8 +19,13 @@ public class CountAnxiety : Anxiety, Thought
 
 	public string getDescription()
     {
-        return "Have I touched it enough times?..";
+		return SpeechStrings.ANX_LIGHT;
     }
+
+	public string getCompletionSpeech()
+	{
+		return SpeechStrings.ANX_LIGHT_DONE;
+	}
 
     public void incrementCount()
     {

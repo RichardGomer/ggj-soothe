@@ -19,12 +19,16 @@ public class ScrubAnxiety : Anxiety, Thought {
 	
 	public string getDescription()
 	{
-		return "Are my hands contaminated?..";
+		return SpeechStrings.ANX_CLEAN;
+	}
+	
+	public string getCompletionSpeech()
+	{
+		return SpeechStrings.ANX_CLEAN_DONE;
 	}
 	
 	public void incrementCount()
 	{
-		Debug.Log ("Scrubbed!");
 		this.count++;
 	}
 	

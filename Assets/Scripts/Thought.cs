@@ -6,6 +6,8 @@ public interface Thought
 {
     string getDescription();
 
+	string getCompletionSpeech();
+
     string getSound();
 
     bool isComplete();

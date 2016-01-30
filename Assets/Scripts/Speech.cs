@@ -10,7 +10,7 @@ public class Speech : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.textQueue = new List<SpeechEntry>();
-        this.queueText("<Initialised Speech>", 1000);
+        this.queueText("", 1000);
 	}
 
     // Update is called once per frame
