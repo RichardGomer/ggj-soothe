@@ -1,16 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CountAnxiety : Anxiety
+public class CountAnxiety : Anxiety, Thought
 {
     private int count = 0;
     private int required = 0;
+	private Clickable target;
 
     public CountAnxiety(Clickable target, int required)
     {
+		this.required = required;
+		this.target = target;
+
+		// Register for clicks
         ClickRcvr rcv = this.incrementCount;
-        target.onClick(rcv);
-        this.required = required;
+        this.target.onClick(rcv);
+    }
+
+	public string getDescription()
+    {
+        return "Have I touched it enough times?..";
     }
 
     public void incrementCount()
@@ -18,9 +27,13 @@ public class CountAnxiety : Anxiety
         this.count++;
     }
 
-    new public bool isComplete()
+    public  bool isComplete()
     {
-        return (this.count % this.required == 0);
+        return this.count > 0 && (this.count % this.required == 0);
     }
-	
+
+	public void forget()
+	{
+		this.target.unsubscribe (this);
+	}
 }
