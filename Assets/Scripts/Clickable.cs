@@ -49,8 +49,18 @@ public class Clickable : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0))
 		{
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-			RaycastHit2D hit = Physics2D.GetRayIntersection (ray, Mathf.Infinity);
-			
+			RaycastHit2D[] hits = Physics2D.GetRayIntersectionAll (ray, Mathf.Infinity);
+
+			// Find the collision object with the highest z index
+			// NB: Since we're using 2D physics, this isn't the highest collision per se,
+			// rather the 2D object with the highest z transform (actually, most -ve)
+			RaycastHit2D hit = hits[0];
+			foreach(RaycastHit2D h in hits)
+			{
+				if(h.transform.position.z < hit.transform.position.z)
+					hit = h;
+			}
+
 			if (hit.collider != null && hit.collider.transform == this.gameObject.transform)
 			{
 				this.mousedown = true;
