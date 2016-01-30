@@ -7,7 +7,7 @@ public class Clickable : MonoBehaviour {
 
 	public Clickable()
 	{
-		this.clickReceivers = new List<ClickRcvr>();
+		this.clicks = new RcvrHandler ();
 	}
 
 	// Use this for initialization
@@ -34,29 +34,50 @@ public class Clickable : MonoBehaviour {
         //this.click();
     }
 
-	void Update()
+	public void Update()
 	{
 		
-		if (Input.GetMouseButtonDown(0))
+		if (mouseWentDown ()) {
+			this.click ();
+		}
+
+	}
+
+	private bool mousedown = false;
+	protected bool mouseWentDown()
+	{
+		if (Input.GetMouseButtonDown (0))
 		{
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit2D hit = Physics2D.GetRayIntersection(ray,Mathf.Infinity);
+			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+			RaycastHit2D hit = Physics2D.GetRayIntersection (ray, Mathf.Infinity);
 			
-			if(hit.collider != null && hit.collider.transform == this.gameObject.transform)
+			if (hit.collider != null && hit.collider.transform == this.gameObject.transform)
 			{
-				this.click ();
+				this.mousedown = true;
+				return true;
 			}
 		}
+
+		return false;
+	}
+
+	protected bool mouseIsDown()
+	{
+		if (Input.GetMouseButtonUp (0)) {
+			this.mousedown = false;
+		}
+
+		return this.mousedown;
 	}
 	
     /**
      * Subscribe to click events
      */
-	protected List<ClickRcvr> clickReceivers;
+	RcvrHandler clicks;
+
     public void onClick(ClickRcvr c)
     {
-        this.clickReceivers.Add(c);
-		print ("Click handler was registered");
+		this.clicks.add (c);
     }
 	
     /**
@@ -64,13 +85,38 @@ public class Clickable : MonoBehaviour {
      */
     public void click()
     {
-		print ("Click triggered");
-        foreach(ClickRcvr cr in this.clickReceivers)
-        {
-			print (" - Pass to handler");
-            cr();
-        }
+		this.clicks.trigger ();
     }
+
+	public virtual void unsubscribe(object o)
+	{
+		this.clicks.unsubscribe (o);
+	}
+
+}
+
+/**
+ * ClickRcvr is just a callback signature
+ */
+public delegate void ClickRcvr();
+
+/**
+ * Keep a collection of ClickRvrs so we can support multiple events
+ */
+public class RcvrHandler
+{
+	protected List<ClickRcvr> receivers;
+
+	public RcvrHandler()
+	{
+		this.receivers = new List<ClickRcvr> ();
+	}
+
+	public void add(ClickRcvr c)
+	{
+		this.receivers.Add(c);
+		Debug.Log ("Handler was registered");
+	}
 
 	/**
      * Remove any click delegates that refer to the given object
@@ -78,15 +124,23 @@ public class Clickable : MonoBehaviour {
      */
 	public void unsubscribe(object o)
 	{
-		foreach (ClickRcvr cr in this.clickReceivers)
+		foreach (ClickRcvr cr in this.receivers)
 		{
 			if(cr.Target == o)
 			{
-				this.clickReceivers.Remove(cr);
+				this.receivers.Remove(cr);
 			}
 		}
 	}
 
+	public void trigger()
+	{
+		foreach(ClickRcvr cr in this.receivers)
+		{
+			Debug.Log (" - Pass to handler");
+			cr();
+		}
+	}
 }
 
 public class MustBeColliderException : Exception
@@ -96,4 +150,3 @@ public class MustBeColliderException : Exception
     }
 }
 
-public delegate void ClickRcvr();
