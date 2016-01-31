@@ -40,6 +40,9 @@ public class Player : MonoBehaviour {
 
         Anxiety a1, a2, a3; // Helpful in a sec xD
 
+        GameObject wi = GameObject.Find("WashInstructions");
+        Vector3 wipos = wi.GetComponent<Transform>().position;
+
         switch (level % 5) {
 
 			case 4:
@@ -52,22 +55,25 @@ public class Player : MonoBehaviour {
 
 			case 3:
 				this.addThought(new SecurityAnxiety());
-			    return;
+                return;
 
-
-			case 2:
+            case 2:
 				this.addThought(a1 = new LightAnxiety((Clickable) GameObject.Find("Switch"), 6));
 				a1.chainThought(new ScrubAnxiety((Sink) GameObject.Find("Sink"), 2));
+
+                wi.GetComponent<Transform>().position = new Vector3(wipos.x, wipos.y, 600);
                 return;
 
 
 			case 1:
 				this.addThought(new ScrubAnxiety((Sink) GameObject.Find("Sink"), 2));
+                wi.GetComponent<Transform>().position = new Vector3(wipos.x, wipos.y, 0);
                 return;
 
 
 			case 0:
 				this.addThought(new LightAnxiety((Clickable) GameObject.Find("Switch"), 6));
+                wi.GetComponent<Transform>().position = new Vector3(wipos.x, wipos.y, 600);
                 return;
 		}
 
