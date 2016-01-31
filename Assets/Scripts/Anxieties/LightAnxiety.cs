@@ -9,7 +9,25 @@ public class LightAnxiety : CountAnxiety, Thought {
 
     public override string getDescription()
 	{
-		return SpeechStrings.ANX_LIGHT;
+        if(this.getCount() > 2)
+        {
+            return this.pickRandomString(SpeechStrings.ANX_LIGHT_PROGRESSING);
+        }
+
+		switch(this.getUrgency())
+        {
+            case 0:
+                return this.pickRandomString(SpeechStrings.ANX_LIGHT_MILD);
+                break;
+            case 1:
+                return this.pickRandomString(SpeechStrings.ANX_LIGHT_MEDIUM);
+                break;
+            case 2:
+                return this.pickRandomString(SpeechStrings.ANX_LIGHT_MAJOR);
+                break;
+        }
+
+        return "???";
 	}
 	
 	public override string getCompletionSpeech()

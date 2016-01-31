@@ -26,6 +26,11 @@ public class CountAnxiety : Anxiety, Thought
         this.count++;
     }
 
+    public int getCount()
+    {
+        return this.count;
+    }
+
 	public override bool isComplete()
     {
         return this.count > 0 && (this.count % this.required == 0);

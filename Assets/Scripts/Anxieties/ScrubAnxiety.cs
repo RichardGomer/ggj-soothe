@@ -10,10 +10,29 @@ public class ScrubAnxiety : CountAnxiety, Thought {
 		target.onScrub (cr);
 	}
 	
-	public override string getDescription()
-	{
-		return SpeechStrings.ANX_CLEAN;
-	}
+
+    public override string getDescription()
+    {
+        if (this.getCount() > 1)
+        {
+            return this.pickRandomString(SpeechStrings.ANX_CLEAN_PROGRESSING);
+        }
+
+        switch (this.getUrgency())
+        {
+            case 0:
+                return this.pickRandomString(SpeechStrings.ANX_CLEAN_MILD);
+                break;
+            case 1:
+                return this.pickRandomString(SpeechStrings.ANX_CLEAN_MEDIUM);
+                break;
+            case 2:
+                return this.pickRandomString(SpeechStrings.ANX_CLEAN_MAJOR);
+                break;
+        }
+
+        return "???";
+    }
 	
 	public override string getCompletionSpeech()
 	{

@@ -33,7 +33,7 @@ public class Clock : MonoBehaviour {
 
 		float hourdelta = ((float) deltasecs / (float) this.secondsPerHour) + this.hourOffset;
 
-		Debug.Log ("Time: " + deltasecs + " / Hours: " + hourdelta.ToString());
+		//Debug.Log ("Time: " + deltasecs + " / Hours: " + hourdelta.ToString());
 
 		int hours = System.Convert.ToInt16(Mathf.Floor(hourdelta));
 		int mins = System.Convert.ToInt16((hourdelta - hours) * 60);

@@ -34,45 +34,54 @@ public class Player : MonoBehaviour {
 		this.level = level;
 
 		// Reset the clock
-		// TODO: This currently goes to midnight...
 		this.clock.reset ();
 
 		Debug.Log ("Setup level " + level);
 
-		switch (level) {
+        Anxiety a1, a2, a3; // Helpful in a sec xD
+
+        switch (level % 5) {
+
 			case 4:
-				this.say ("DONE!", 5000);
-			return;
+                this.addThought(a1 = new LightAnxiety((Clickable)GameObject.Find("Switch"), 4));
+                a1.chainThought(new ScrubAnxiety((Sink)GameObject.Find("Sink"), 2));
+
+                this.addThought(new SecurityAnxiety());
+
+                return;
 
 			case 3:
-				SecurityAnxiety s1, s2;
-				this.addThought(s1 = new SecurityAnxiety((Clickable) GameObject.Find("FrontDoor"), 1));
-				s1.chainThought(s2 = new SecurityAnxiety((Clickable) GameObject.Find("Window"), 1));
-			return;
+				this.addThought(new SecurityAnxiety());
+			    return;
 
 
 			case 2:
-				this.addThought(new LightAnxiety((Clickable) GameObject.Find("Switch"), 4));
-				this.addThought(new ScrubAnxiety((Sink) GameObject.Find("Sink"), 2));
-			break;
+				this.addThought(a1 = new LightAnxiety((Clickable) GameObject.Find("Switch"), 6));
+				a1.chainThought(new ScrubAnxiety((Sink) GameObject.Find("Sink"), 2));
+                return;
 
 
 			case 1:
-				this.addThought(new ScrubAnxiety((Sink) GameObject.Find("Sink"), 2));	
-			break;
+				this.addThought(new ScrubAnxiety((Sink) GameObject.Find("Sink"), 2));
+                return;
 
 
 			case 0:
-				this.addThought(new LightAnxiety((Clickable) GameObject.Find("Switch"), 4));
-			break;
+				this.addThought(new LightAnxiety((Clickable) GameObject.Find("Switch"), 6));
+                return;
 		}
 
 	}
 
-    // Convenience method that delegates to the speech system
+    // Convenience methods that delegate to the speech system
     public void say(string s, int delay)
     {
         this.GetComponent<Speech>().queueText(s, delay);
+    }
+
+    public void think(Thought t)
+    {
+        this.GetComponent<Speech>().queueThought(t);
     }
 
     /**
@@ -87,7 +96,7 @@ public class Player : MonoBehaviour {
     {
         this.thoughts.Add(t);
 
-		this.say (t.getDescription(), 2500);
+		this.think (t);
     }
 
     public void removeThought(Thought t)
@@ -95,7 +104,7 @@ public class Player : MonoBehaviour {
         this.thoughts.Remove(t);
     }
 
-    // Clean up complete thoughts
+    // Clean up completed thoughts
     protected void purgeThoughts()
     {
 		try

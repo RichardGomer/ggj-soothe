@@ -8,6 +8,8 @@ public interface Thought
 
 	 string getCompletionSpeech();
 
+     int getUrgency();
+
 	 string getSound();
 
 	 bool isComplete();
