@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using System;
 
 public class Player : MonoBehaviour {
@@ -8,9 +7,10 @@ public class Player : MonoBehaviour {
     protected ArrayList thoughts;
 	public UIFacade UIF;
 	public Clock clock;
+    public UnityEngine.Audio.AudioMixer audioMixer;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 
         this.thoughts = new ArrayList();
 
@@ -109,6 +109,8 @@ public class Player : MonoBehaviour {
     {
 		try
 		{
+            int maxUrgency = 0;
+
 		    foreach(Thought tt in this.thoughts)
 	        {
 				if (tt.isComplete())
@@ -122,12 +124,30 @@ public class Player : MonoBehaviour {
 						this.addThought(tt.getNextThought());
 					}
 	            }
+                else
+                {
+                    maxUrgency = Math.Max(maxUrgency, tt.getUrgency());
+                }
 	        }
-		}
+
+            Debug.Log("Max urgency (for sound) is " + maxUrgency);
+
+            if (maxUrgency > 1)
+            {
+                this.audioMixer.SetFloat("PanicVol", 20f);
+                this.audioMixer.SetFloat("RelaxVol", 0f);
+            }
+            else
+            {
+                this.audioMixer.SetFloat("PanicVol", 0f);
+                this.audioMixer.SetFloat("RelaxVol", 20f);
+            }
+        }
 		catch(InvalidOperationException e)
 		{
 			
 		}
+
     }
 
     public double getAnxiousness()
