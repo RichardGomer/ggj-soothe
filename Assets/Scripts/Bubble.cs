@@ -20,6 +20,6 @@ public class Bubble : MonoBehaviour {
 
 	public void setText(string text)
 	{
-
+        this.textel.text = text;
 	}
 }
