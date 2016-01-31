@@ -8,10 +8,14 @@ using System;
 public class Speech : MonoBehaviour {
 	
 	public Canvas uiCanvas;
+
+    protected System.Random rand;
+
 	// Use this for initialization
 	void Start () {
 
-		this.textQueue = new List<SpeechEntry>();
+        this.rand = new System.Random();
+        this.textQueue = new List<SpeechEntry>();
 
 	}
 
@@ -27,6 +31,12 @@ public class Speech : MonoBehaviour {
         {
             // Update the text
             se.getBubble().setText(se.getText());
+
+            Animator ani = se.getBubble().GetComponent<Animator>();
+            Debug.Log("Urgency: " + ani.GetInteger("urgency"));
+            ani.SetInteger("urgency", se.getUrgency());
+            Debug.Log("Urgency: " + ani.GetInteger("urgency"));
+
 
             // TODO: Update the animation
 
@@ -72,11 +82,10 @@ public class Speech : MonoBehaviour {
 	protected Bubble genBubble()
 	{
 		Rect rect = uiCanvas.pixelRect;
-		System.Random rand = new System.Random ();
 
         int border = 100;
-		int xpos = rand.Next (System.Convert.ToInt32( rect.width - 2 * border)) + border;
-		int ypos = rand.Next (System.Convert.ToInt32( rect.height -2 * border)) + border;
+		int xpos = this.rand.Next (System.Convert.ToInt32( rect.width - 2 * border)) + border;
+		int ypos = this.rand.Next (System.Convert.ToInt32( rect.height -2 * border)) + border;
 
 		Vector3 pos = new Vector3 (xpos, ypos, -3);
 		Bubble bclone = (Bubble) Instantiate (this.bubbleMaster, pos, Quaternion.identity);
@@ -120,6 +129,11 @@ abstract public class SpeechEntry
 	{
 		return this.bubble;
 	}
+
+    public virtual int getUrgency()
+    {
+        return 0;
+    }
 }
 
 public class ThoughtSpeechEntry : SpeechEntry
@@ -133,11 +147,16 @@ public class ThoughtSpeechEntry : SpeechEntry
         this.thought = thought;
     }
 
+    public override int getUrgency()
+    {
+        return this.thought.getUrgency();
+    }
+
     private int oldUrgency = -1;
     private string text = "";
     public override string getText()
     {
-        return this.thought.getDescription();
+        return this.thought.getStableDescription();
     }
 
     override public bool hasExpired()

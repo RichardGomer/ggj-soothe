@@ -114,7 +114,7 @@ public class Player : MonoBehaviour {
 				if (tt.isComplete())
 	            {
 	                this.thoughts.Remove(tt);
-	                this.say(tt.getCompletionSpeech(), 1000);
+	                this.say(tt.getCompletionSpeech(), 3000);
 
 					// See if there are chained thoughts...
 					if(tt.hasNextThought())

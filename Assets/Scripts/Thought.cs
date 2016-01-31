@@ -17,4 +17,6 @@ public interface Thought
 	 Thought getNextThought();
 
 	 bool hasNextThought();
+
+    string getStableDescription();
 }
