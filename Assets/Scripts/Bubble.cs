@@ -15,7 +15,8 @@ public class Bubble : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+
+
 	}
 
 	public void setText(string text)

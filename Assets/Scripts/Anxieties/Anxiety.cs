@@ -47,6 +47,26 @@ public abstract class Anxiety : Thought
 		return "<NOT IMPLEMENTED>";
 	}
 
+
+    // Get a description, but stabilised unless something like an urgency
+    // change occurs
+    protected int lastTime = -100;
+    protected int lastUrgency = -1;
+    protected string lastString = "";
+    public virtual string getStableDescription()
+    {
+        if (this.lastString == "" || this.getUrgency() != this.lastUrgency || this.lastTime < Time.time - 10)
+        {
+            this.lastString = this.getDescription();
+            this.lastUrgency = this.getUrgency();
+            this.lastTime = (int)Time.time;
+
+            this.lastString = this.getDescription();
+        }
+
+        return this.lastString;
+    }
+
     // Pick a random string from the given ; separated strings
     protected virtual string pickRandomString(string master)
     {

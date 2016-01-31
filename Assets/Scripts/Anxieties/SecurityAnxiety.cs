@@ -52,11 +52,25 @@ public class SecurityAnxiety : Anxiety, Thought {
                 break;
         }
 
+        
+
         return "???";
     }
 
     public override string getCompletionSpeech()
 	{
-		return SpeechStrings.ANX_SECURITY_DONE;
+        // Failure!
+        // this is VERY brittle...
+        // Call getCompletionSpeech() before hasNextThought() for failure to work...
+        System.Random r = new System.Random();
+        if (r.Next(5) > 3)
+        {
+            // FAIL
+            this.chainThought(new SecurityAnxiety());
+
+            return this.pickRandomString(SpeechStrings.ANX_SECURITY_FAIL);
+        }
+
+        return SpeechStrings.ANX_SECURITY_DONE;
 	}
 }
