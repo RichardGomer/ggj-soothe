@@ -29,6 +29,7 @@ public class Player : MonoBehaviour {
     }
 
 	private int level;
+    private bool sinkinstructions = false;
 	void reset(int level){
 
 		this.level = level;
@@ -43,7 +44,18 @@ public class Player : MonoBehaviour {
         GameObject wi = GameObject.Find("WashInstructions");
         Vector3 wipos = wi.GetComponent<Transform>().position;
 
-        switch (level % 5) {
+        switch (level % 7) {
+
+            case 6:
+                Application.LoadLevel(0);
+                break;
+
+            case 5:
+                this.addThought(a1 = new LightAnxiety((Clickable)GameObject.Find("Switch"), 4));
+                this.addThought(new FireAnxiety((Clickable)GameObject.Find("FireAlarm"), 1));
+                this.addThought(a2 = new ScrubAnxiety((Sink)GameObject.Find("Sink"), 2));
+                a2.chainThought(new SecurityAnxiety());
+                break;
 
 			case 4:
                 this.addThought(a1 = new LightAnxiety((Clickable)GameObject.Find("Switch"), 4));
@@ -67,12 +79,21 @@ public class Player : MonoBehaviour {
 
 			case 1:
 				this.addThought(new ScrubAnxiety((Sink) GameObject.Find("Sink"), 2));
-                wi.GetComponent<Transform>().position = new Vector3(wipos.x, wipos.y, 0);
+
+                if (!this.sinkinstructions)
+                {
+                    wi.GetComponent<Transform>().position = new Vector3(wipos.x, wipos.y, 0);
+                    this.sinkinstructions = true;
+                }
+
                 return;
 
 
 			case 0:
-				this.addThought(new LightAnxiety((Clickable) GameObject.Find("Switch"), 6));
+                Clickable fa = (Clickable)GameObject.Find("FireAlarm");
+                Debug.Log(fa);
+                this.addThought(new FireAnxiety(fa, 1));
+                this.addThought(new LightAnxiety((Clickable) GameObject.Find("Switch"), 6));
                 wi.GetComponent<Transform>().position = new Vector3(wipos.x, wipos.y, 600);
                 return;
 		}

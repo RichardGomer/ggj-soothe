@@ -19,11 +19,11 @@ public abstract class Anxiety : Thought
     {
         int age = this.getAge();
 
-        if(age < 10)
+        if(age < 5)
         {
             return 0;
         }
-        else if(age < 20)
+        else if(age < 10)
         {
             return 1;
         }

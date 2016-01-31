@@ -16,7 +16,7 @@ public class SpeechStrings
     public const string ANX_LIGHT_MAJOR = "THEY'RE GOING TO DIE:THEY'RE GOING TO DIE BECAUSE OF ME:YOU'RE MURDERING THEM:THE LIGHT SWITCH:JUST FLICK IT";
     public const string ANX_LIGHT_PROGRESSING = "1...2...:Come on, come on:";
     public const string ANX_LIGHT_FAIL = "I did it wrong!:I'll do it again just to be sure: Did I do it right? I don't think I did it right";
-    public const string ANX_LIGHT_DONE = "3!:It worked";
+    public const string ANX_LIGHT_DONE = "3 !:It worked";
 
 	public const string ANX_CLEAN_MILD = "I feel dirty:I was near that coughing guy yesterday:It feels germ-y in here:There were probably germs on that:Was that thing clean? I don't think it was clean:I need to wash my hands: I should probably wash my hands just in case";
     public const string ANX_CLEAN_MEDIUM = "I need to wash my hands: I need to wash my hands right now: I'm so dirty right now:I'm so dirty";
@@ -25,14 +25,14 @@ public class SpeechStrings
     public const string ANX_CLEAN_DONE = "They're clean now:I feel clean now:They feel so much better now:I feel so much better";
 
     public const string ANX_FIRE_MILD = "I better check the fire alarm:There are a lot of flammable things in here:I just need to check one more time";
-    public const string ANX_FIRE_MEDIUM = "I'll check the fire alarm to be safe:You'd lose everything:";
+    public const string ANX_FIRE_MEDIUM = "I'll check the fire alarm to be safe:You'd lose everything";
     public const string ANX_FIRE_MAJOR = "YOU'RE GOING TO BURN TO DEATH:YOU'RE GOING TO LOSE EVERYTHING:IT'S GOING TO BURN";
     public const string ANX_FIRE_FAIL = "I need to double check";
     public const string ANX_FIRE_DONE = "";
 
-	public const string ANX_SECURITY_MILD = "Did I lock the window?:Am I safe?:How safe is this neighbourhood?:";
-    public const string ANX_SECURITY_MEDIUM = "I'm not safe:I need to secure the window:They might be waiting there right now";
-    public const string ANX_SECURITY_MAJOR = "THEY'RE JUST OUTSIDE:THEY'RE OUTSIDE THE WINDOW:I CAN HEAR THEM:THEY'RE GOING TO KILL ME";
+	public const string ANX_SECURITY_MILD = "Did I lock the window and door?:Am I safe?:How safe is this neighbourhood?";
+    public const string ANX_SECURITY_MEDIUM = "I'm not safe:I need to secure the appartment:They might be waiting there right now";
+    public const string ANX_SECURITY_MAJOR = "THEY'RE JUST OUTSIDE:THEY'RE OUTSIDE:I CAN HEAR THEM:THEY'RE GOING TO KILL ME";
     public const string ANX_SECURITY_FAIL = "I need to do it again:I didn't do it right:Do it again to be sure";
     public const string ANX_SECURITY_DONE = "They can't get in now:That'll do:I'll be safe now:That'll stop them";
 
