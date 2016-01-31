@@ -130,17 +130,19 @@ public class Player : MonoBehaviour {
                 }
 	        }
 
-            Debug.Log("Max urgency (for sound) is " + maxUrgency);
+            // TODO: Cross fade...
+            float volHigh = 0f;
+            float volLow = -40f;
 
             if (maxUrgency > 1)
             {
-                this.audioMixer.SetFloat("PanicVol", 20f);
-                this.audioMixer.SetFloat("RelaxVol", 0f);
+                this.audioMixer.SetFloat("PanicVol", volHigh);
+                this.audioMixer.SetFloat("RelaxVol", volLow);
             }
             else
             {
-                this.audioMixer.SetFloat("PanicVol", 0f);
-                this.audioMixer.SetFloat("RelaxVol", 20f);
+                this.audioMixer.SetFloat("PanicVol", volLow);
+                this.audioMixer.SetFloat("RelaxVol", volHigh);
             }
         }
 		catch(InvalidOperationException e)

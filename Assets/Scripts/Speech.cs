@@ -32,12 +32,8 @@ public class Speech : MonoBehaviour {
             // Update the text
             se.getBubble().setText(se.getText());
 
-            Animator ani = se.getBubble().GetComponent<Animator>();
-            Debug.Log("Urgency: " + ani.GetInteger("urgency"), se.getBubble());
+            Animator ani = se.getBubble().GetComponentsInChildren<Animator>()[0];
             ani.SetInteger("urgency", se.getUrgency());
-            
-            Debug.Log("Urgency: " + ani.GetInteger("urgency"));
-
 
             // TODO: Update the animation
 

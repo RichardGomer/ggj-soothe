@@ -71,6 +71,6 @@ public class SecurityAnxiety : Anxiety, Thought {
             return this.pickRandomString(SpeechStrings.ANX_SECURITY_FAIL);
         }
 
-        return SpeechStrings.ANX_SECURITY_DONE;
+        return this.pickRandomString(SpeechStrings.ANX_SECURITY_DONE);
 	}
 }
